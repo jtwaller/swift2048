@@ -1,0 +1,9 @@
+1)  Draw the game board
+2)  Create square model
+3)  Adding squares to board
+4)  Moving squares
+5)  Adding squares together
+6)  Loss condition
+
+Whenever:
+Calculating score
