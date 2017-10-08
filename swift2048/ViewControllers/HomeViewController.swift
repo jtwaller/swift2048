@@ -8,12 +8,14 @@
 
 import UIKit
 
-class GameViewController: UIViewController {
+class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
-        let storyboard = UIStoryboard(name: "GameScreen", bundle: nil)
-        let gameVc = storyboard.instantiateViewController(withIdentifier: "GameScreen")
-        
+        let padding: CGFloat = 6
+        let boardLength = self.view.frame.width - 2 * padding
+        let frame = CGRect(x: padding, y: self.view.frame.height - boardLength - 60.0, width: boardLength, height: boardLength)
+        let gameBoard = GameView(frame: frame)
+        self.view.addSubview(gameBoard)
     }
     
     func setupGame() {
