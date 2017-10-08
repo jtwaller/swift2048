@@ -16,9 +16,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
         
-        let emptyVc = UIViewController()
+        let storyboard = UIStoryboard(name: "HomeScreen", bundle: nil)
+        let gameVc = storyboard.instantiateViewController(withIdentifier: "HomeScreen")
         
-        window!.rootViewController = emptyVc
+        let navController = UINavigationController(rootViewController: gameVc)
+        navController.setNavigationBarHidden(true, animated: false)
+        
+        window!.rootViewController = navController
         window!.makeKeyAndVisible()
         
         return true
