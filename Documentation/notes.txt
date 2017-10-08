@@ -7,3 +7,11 @@
 
 Whenever:
 Calculating score
+
+
+1)  Making the game board
+
+parent square
+parentX . parentY
+individual width/length = (parentX - 5*separator) / 4
+
