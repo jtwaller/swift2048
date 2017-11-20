@@ -1,5 +1,5 @@
 //
-//  GameView.swift
+//  GameBoardView.swift
 //  swift2048
 //
 //  Created by jack on 10/7/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GameView: UIView {
+class GameBoardView: UIView {
     
     var sideLength: CGFloat = 0
     let padding: CGFloat = 6
@@ -27,10 +27,8 @@ class GameView: UIView {
     }
 
     fileprivate func drawBoard() {
-        let bg = UIView(frame: CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.width))
-        bg.backgroundColor = UIColor.boardColor
-        bg.layer.cornerRadius = 5
-        self.addSubview(bg)
+        self.backgroundColor = UIColor.boardColor
+        self.layer.cornerRadius = 5
         
         var xCursor = padding
         var yCursor = padding
@@ -40,7 +38,6 @@ class GameView: UIView {
             tiles.append([TileView]())
             for j in 0 ..< 4 {
                 tiles[i].append(TileView(frame: CGRect(x: xCursor, y: yCursor, width: sideLength, height: sideLength)))
-
                 self.addSubview(tiles[i][j])
                 xCursor += padding + sideLength
             }
@@ -71,8 +68,4 @@ class GameView: UIView {
         }
     }
     
-    func clearBoard() {
-//        self.subviews.forEach({ $0.removeFromSuperview() })
-//        drawBoard()
-    }
 }

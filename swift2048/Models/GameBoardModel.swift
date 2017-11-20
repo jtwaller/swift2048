@@ -12,7 +12,7 @@
 import UIKit
 
 protocol GameBoardDelegate: class {
-    func updateGameBoard(tiles: [[Int]])
+    func updateGameBoard()
 }
 
 struct TileCoords {
@@ -31,15 +31,12 @@ struct TileCoords {
 
 class GameBoardModel: NSObject {
     
-    var board = Array(repeating: Array(repeating: 0, count: 4), count: 4) {
-        didSet {
-//            delegate.updateGameBoard(tiles: board)
-        }
-    }
-    
+    var board: [[Int]]
     unowned let delegate: GameBoardDelegate
+    let allowedDirections: [UISwipeGestureRecognizerDirection] = [.up, .down, .left, .right]
     
     init(delegate: GameBoardDelegate) {
+        board = Array(repeating: Array(repeating: 0, count: 4), count: 4)
         self.delegate = delegate
         super.init()
         startGame()
@@ -50,11 +47,8 @@ class GameBoardModel: NSObject {
         // New game starts with two randomly spawned tiles
         addNewTile()
         addNewTile()
-    }
-    
-    func newTileValue() -> Int {
-        let fourTileSpawnrate = 10
-        return (Int(arc4random_uniform(100)) >= fourTileSpawnrate) ? 2 : 4
+
+        delegate.updateGameBoard()
     }
     
     var debugBoardString: String {
@@ -68,20 +62,42 @@ class GameBoardModel: NSObject {
         return result
     }
     
-    func addNewTile() {
-        let emptyTiles = getEmptyTiles()
+    func handleSwipe(_ direction: UISwipeGestureRecognizerDirection) {
         
-        if emptyTiles.count == 0 {
-            print("Game over")
-            return
+        print(debugBoardString + "\n\n")
+        switch direction {
+        case .up:
+            for i in 0 ..< 4 {
+                var curVector = Array(repeating: 0, count: 4)
+                for j in 0 ..< 4 {
+                    curVector[j] = board[i][j]
+                }
+            }
+        default:
+            print(direction.rawValue)
+//            assert(false, "invalid swipe direction")
         }
         
-        let coords = emptyTiles[Int(arc4random_uniform(UInt32(emptyTiles.count)))]
+        print(debugBoardString + "\n\n")
+        delegate.updateGameBoard()
+    }
+    
+    func condenseVector(_ input: [Int]) -> [Int] {
+        var result = input
+        // first collapse zeroes
+        var lead = 0
+        for i in 0 ..< input.count {
+            if result[i] != 0 {
+                if i != lead {
+                    let tmp = result[i]
+                    result[i] = result[lead]
+                    result[lead] = tmp
+                }
+                lead += 1
+            }
+        }
         
-        board[coords.x][coords.y] = newTileValue()
-        delegate.updateGameBoard(tiles: board)
-        
-        // TODO:  At end of addNewTile, if no valid moves, end game
+        return result
     }
     
     func getEmptyTiles() -> [TileCoords] {
@@ -92,23 +108,32 @@ class GameBoardModel: NSObject {
                 if board[i][j] == 0 {
                     result.append(TileCoords(x: i, y: j))
                 }
-//                print("i \(i)   j \(j)  value: \(board[i][j])")
             }
         }
-        
-//        print(result.debugDescription)
-//        print(result.count)
-        
         return result
     }
     
-    func resetGame() {
-        for i in 0 ..< board.count {
-            for j in 0 ..< board[i].count {
-                board[i][j] = 0
-            }
+    func newTileValue() -> Int {
+        let fourTileSpawnrate = 10
+        return (Int(arc4random_uniform(100)) >= fourTileSpawnrate) ? 2 : 4
+    }
+    
+    func addNewTile() {
+        let emptyTiles = getEmptyTiles()
+        
+        if emptyTiles.count == 0 {
+            print("Game over")
+            return
         }
         
+        let coords = emptyTiles[Int(arc4random_uniform(UInt32(emptyTiles.count)))]
+        board[coords.x][coords.y] = newTileValue()
+        
+        // TODO:  At end of addNewTile, if no valid moves, end game
+    }
+    
+    func resetGame() {
+        board = Array(repeating: Array(repeating: 0, count: 4), count: 4)
         startGame()
     }
 }

@@ -10,13 +10,8 @@ import UIKit
 
 class HomeViewController: UIViewController, GameBoardDelegate {
     
-    var gameView: GameView?
-    var gameModel: GameBoardModel? {
-        didSet {
-            print(gameModel!.debugBoardString)
-            updateGameBoard(tiles: gameModel!.board)
-        }
-    }
+    var gameBoardView: GameBoardView?
+    var gameModel: GameBoardModel?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -27,8 +22,17 @@ class HomeViewController: UIViewController, GameBoardDelegate {
         let boardLength = self.view.frame.width - 2 * padding
         let frame = CGRect(x: padding, y: self.view.frame.height - boardLength - 60.0, width: boardLength, height: boardLength)
         gameModel = GameBoardModel(delegate: self)
-        gameView = GameView(frame: frame)
-        self.view.addSubview(gameView!)
+        gameBoardView = GameBoardView(frame: frame)
+        self.view.addSubview(gameBoardView!)
+        updateGameBoard()
+        
+        for direction in gameModel!.allowedDirections {
+            let gestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
+            gestureRecognizer.direction = direction
+            self.view.addGestureRecognizer(gestureRecognizer)
+        }
+        
+        // DEBUG STUFF
         
         let button = UIButton(frame: CGRect(x: 200, y: 50, width: 100, height: 50))
         button.setTitle("Do the thing", for: .normal)
@@ -44,21 +48,27 @@ class HomeViewController: UIViewController, GameBoardDelegate {
         self.view.addSubview(button2)
     }
     
-    func updateGameBoard(tiles: [[Int]]) {
+    func updateGameBoard() {
         for i in 0 ..< 4 {
             for j in  0 ..< 4 {
-                gameView?.tiles[i][j].value = gameModel!.board[i][j]
+                gameBoardView?.tiles[i][j].value = gameModel!.board[i][j]
             }
         }
-//        gameView!.drawTiles(tiles)
+    }
+    
+    @objc func handleSwipe(_ sender: UISwipeGestureRecognizer) {
+        if sender.state == .ended {
+            print(sender.debugDescription)
+            gameModel?.handleSwipe(sender.direction)
+        }
     }
     
     @objc func debugButtonAction() {
         gameModel!.addNewTile()
+        updateGameBoard()
     }
     
     @objc func debugButtonAction2() {
-        gameView!.clearBoard()
         gameModel!.resetGame()
     }
     
