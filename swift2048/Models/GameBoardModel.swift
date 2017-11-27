@@ -66,11 +66,48 @@ class GameBoardModel: NSObject {
         
         print(debugBoardString + "\n\n")
         switch direction {
-        case .up:
+        case .left:
             for i in 0 ..< 4 {
                 var curVector = Array(repeating: 0, count: 4)
                 for j in 0 ..< 4 {
                     curVector[j] = board[i][j]
+                }
+                curVector = collapseVector(curVector)
+                for j in 0 ..< 4 {
+                    board[i][j] = curVector[j]
+                }
+            }
+        case .right:
+            for i in 0 ..< 4 {
+                var curVector = Array(repeating: 0, count: 4)
+                for j in (0 ..< 4) {
+                    curVector[j] = board[i][3-j]
+                }
+                curVector = collapseVector(curVector)
+                for j in (0 ..< 4).reversed() {
+                    board[i][3-j] = curVector[j]
+                }
+            }
+        case .up:
+            for j in 0 ..< 4 {
+                var curVector = Array(repeating: 0, count: 4)
+                for i in 0 ..< 4 {
+                    curVector[i] = board[i][j]
+                }
+                curVector = collapseVector(curVector)
+                for i in 0 ..< 4 {
+                    board[i][j] = curVector[i]
+                }
+            }
+        case .down:
+            for j in 0 ..< 4 {
+                var curVector = Array(repeating: 0, count: 4)
+                for i in (0 ..< 4) {
+                    curVector[i] = board[3-i][j]
+                }
+                curVector = collapseVector(curVector)
+                for i in (0 ..< 4) {
+                    board[3-i][j] = curVector[i]
                 }
             }
         default:
@@ -79,21 +116,44 @@ class GameBoardModel: NSObject {
         }
         
         print(debugBoardString + "\n\n")
+        
+        addNewTile()
         delegate.updateGameBoard()
     }
     
-    func condenseVector(_ input: [Int]) -> [Int] {
+    func collapseVector(_ input: [Int]) -> [Int] {
         var result = input
-        // first collapse zeroes
-        var lead = 0
-        for i in 0 ..< input.count {
-            if result[i] != 0 {
-                if i != lead {
-                    let tmp = result[i]
-                    result[i] = result[lead]
-                    result[lead] = tmp
+        
+        // merge adjacent non-zero numbers
+        for i in 0 ..< input.count - 1 {
+            if result[i] == 0 {
+                continue
+            }
+            for j in i + 1 ..< input.count {
+                if result[j] != 0 && result[j] != result[i] {
+                    break
                 }
-                lead += 1
+                
+                if result[j] == result[i] {
+                    result[i] = 2 * result[i]
+                    result[j] = 0
+                    break
+                }
+            }
+        }
+        print(result)
+        
+        // condense vector
+        for lead in 0 ..< input.count - 1 {
+            if result[lead] != 0 {
+                continue
+            }
+            for follow in lead+1 ..< input.count {
+                if result[follow] != 0 {
+                    result[lead] = result[follow]
+                    result[follow] = 0
+                    break
+                }
             }
         }
         
