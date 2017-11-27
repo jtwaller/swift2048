@@ -58,7 +58,6 @@ class HomeViewController: UIViewController, GameBoardDelegate {
     
     @objc func handleSwipe(_ sender: UISwipeGestureRecognizer) {
         if sender.state == .ended {
-            print(sender.debugDescription)
             gameModel?.handleSwipe(sender.direction)
         }
     }

@@ -64,7 +64,8 @@ class GameBoardModel: NSObject {
     
     func handleSwipe(_ direction: UISwipeGestureRecognizerDirection) {
         
-        print(debugBoardString + "\n\n")
+        var movePerformed = false
+        
         switch direction {
         case .left:
             for i in 0 ..< 4 {
@@ -74,7 +75,10 @@ class GameBoardModel: NSObject {
                 }
                 curVector = collapseVector(curVector)
                 for j in 0 ..< 4 {
-                    board[i][j] = curVector[j]
+                    if board[i][j] != curVector[j] {
+                        movePerformed = true
+                        board[i][j] = curVector[j]
+                    }
                 }
             }
         case .right:
@@ -85,7 +89,10 @@ class GameBoardModel: NSObject {
                 }
                 curVector = collapseVector(curVector)
                 for j in (0 ..< 4).reversed() {
-                    board[i][3-j] = curVector[j]
+                    if board[i][3-j] != curVector[j] {
+                        movePerformed = true
+                        board[i][3-j] = curVector[j]
+                    }
                 }
             }
         case .up:
@@ -96,7 +103,10 @@ class GameBoardModel: NSObject {
                 }
                 curVector = collapseVector(curVector)
                 for i in 0 ..< 4 {
-                    board[i][j] = curVector[i]
+                    if board[i][j] != curVector[i] {
+                        movePerformed = true
+                        board[i][j] = curVector[i]
+                    }
                 }
             }
         case .down:
@@ -107,17 +117,20 @@ class GameBoardModel: NSObject {
                 }
                 curVector = collapseVector(curVector)
                 for i in (0 ..< 4) {
-                    board[3-i][j] = curVector[i]
+                    if board[3-i][j] != curVector[i] {
+                        movePerformed = true
+                        board[3-i][j] = curVector[i]
+                    }
                 }
             }
         default:
-            print(direction.rawValue)
-//            assert(false, "invalid swipe direction")
+            assert(false, "invalid swipe direction")
         }
         
-        print(debugBoardString + "\n\n")
+        if movePerformed {
+            addNewTile()
+        }
         
-        addNewTile()
         delegate.updateGameBoard()
     }
     
@@ -141,7 +154,6 @@ class GameBoardModel: NSObject {
                 }
             }
         }
-        print(result)
         
         // condense vector
         for lead in 0 ..< input.count - 1 {
