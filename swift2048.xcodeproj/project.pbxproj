@@ -11,8 +11,10 @@
 		517136FB1F74571500A56032 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 517136FA1F74571500A56032 /* Assets.xcassets */; };
 		517137061F74BC0D00A56032 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517137051F74BC0D00A56032 /* AppDelegate.swift */; };
 		518D48801F897F32008F8D99 /* HomeScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 518D487F1F897F32008F8D99 /* HomeScreen.storyboard */; };
-		518D48831F89AF87008F8D99 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 518D48821F89AF87008F8D99 /* GameView.swift */; };
+		518D48831F89AF87008F8D99 /* GameBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 518D48821F89AF87008F8D99 /* GameBoardView.swift */; };
 		518D48861F8A9D33008F8D99 /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 518D48851F8A9D33008F8D99 /* ColorPalette.swift */; };
+		518D48891F8ABCF5008F8D99 /* GameBoardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 518D48881F8ABCF5008F8D99 /* GameBoardModel.swift */; };
+		51FF88A91F9322BA007EBE50 /* TileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51FF88A81F9322BA007EBE50 /* TileView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,8 +24,10 @@
 		517136FF1F74571500A56032 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		517137051F74BC0D00A56032 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		518D487F1F897F32008F8D99 /* HomeScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HomeScreen.storyboard; sourceTree = "<group>"; };
-		518D48821F89AF87008F8D99 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		518D48821F89AF87008F8D99 /* GameBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBoardView.swift; sourceTree = "<group>"; };
 		518D48851F8A9D33008F8D99 /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
+		518D48881F8ABCF5008F8D99 /* GameBoardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBoardModel.swift; sourceTree = "<group>"; };
+		51FF88A81F9322BA007EBE50 /* TileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +70,7 @@
 			children = (
 				517136FA1F74571500A56032 /* Assets.xcassets */,
 				517137051F74BC0D00A56032 /* AppDelegate.swift */,
+				518D48871F8ABCD4008F8D99 /* Models */,
 				518D487E1F897F07008F8D99 /* Storyboards */,
 				518D48841F8A9D0F008F8D99 /* SupportingFiles */,
 				518D48811F89AF63008F8D99 /* Views */,
@@ -86,7 +91,8 @@
 		518D48811F89AF63008F8D99 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				518D48821F89AF87008F8D99 /* GameView.swift */,
+				518D48821F89AF87008F8D99 /* GameBoardView.swift */,
+				51FF88A81F9322BA007EBE50 /* TileView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -97,6 +103,14 @@
 				518D48851F8A9D33008F8D99 /* ColorPalette.swift */,
 			);
 			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		518D48871F8ABCD4008F8D99 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				518D48881F8ABCF5008F8D99 /* GameBoardModel.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -132,7 +146,7 @@
 					517136EF1F74571500A56032 = {
 						CreatedOnToolsVersion = 9.0;
 						LastSwiftMigration = 0900;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -172,8 +186,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				5167AFC41F7CA1BD00625D5C /* HomeViewController.swift in Sources */,
-				518D48831F89AF87008F8D99 /* GameView.swift in Sources */,
+				518D48831F89AF87008F8D99 /* GameBoardView.swift in Sources */,
 				517137061F74BC0D00A56032 /* AppDelegate.swift in Sources */,
+				518D48891F8ABCF5008F8D99 /* GameBoardModel.swift in Sources */,
+				51FF88A91F9322BA007EBE50 /* TileView.swift in Sources */,
 				518D48861F8A9D33008F8D99 /* ColorPalette.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -229,7 +245,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -280,7 +296,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -293,8 +309,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = VD5N536GKF;
 				INFOPLIST_FILE = swift2048/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jtwaller.swift2048;
@@ -311,8 +328,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = VD5N536GKF;
 				INFOPLIST_FILE = swift2048/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jtwaller.swift2048;
